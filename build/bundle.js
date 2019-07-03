@@ -117,7 +117,7 @@ eval("__webpack_require__.r(__webpack_exports__);\nconst Snap = __webpack_requir
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Flower__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Flower */ \"./src/Flower.js\");\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  let flowers = [];\n\n  for (var i = 0; i < 1; i++) {\n    flowers.push(new _Flower__WEBPACK_IMPORTED_MODULE_0__[\"default\"](100, 200));\n  }\n\n  console.log(flowers);\n  setInterval(() => {\n    flowers.forEach(flower => {\n      flower.up();\n    });\n  }, 50);\n});\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Flower__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Flower */ \"./src/Flower.js\");\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  let flowers = [];\n\n  for (var i = 0; i < 10; i++) {\n    flowers.push(new _Flower__WEBPACK_IMPORTED_MODULE_0__[\"default\"](getRandomInt(-100, 1000), getRandomInt(700, 1000), getRandomInt(3, 8), getRandomInt(1, 8) / 10));\n  }\n\n  console.log(flowers);\n  setInterval(() => {\n    flowers.forEach(flower => {\n      flower.up();\n    });\n  }, 50);\n});\n\nconst getRandomInt = (min, max) => {\n  min = Math.ceil(min);\n  max = Math.floor(max);\n  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive\n};\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
