@@ -1,6 +1,12 @@
 import Flower from "./Flower";
+import "songle-api";
 
 document.addEventListener("DOMContentLoaded", (() => {
+    const player = new Songle.Player({
+        mediaElement: "#songle"
+    });
+    player.useMedia("www.nicovideo.jp%2Fwatch%2Fsm15335938");
+
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -16,7 +22,77 @@ document.addEventListener("DOMContentLoaded", (() => {
         `height: ${height}px;`,
     ].join(' '));
     document.body.appendChild(svg);
-    let upDownStopFlag = "DOWN";
+    let upDownStopFlag = "STOP";
+
+    player.on("play", (ev) => {
+        console.log("play", ev);
+        upDownStopFlag = "DOWN";
+        flowers.forEach((flower) => {
+            flower.setDownColor();
+        });
+    });
+    player.on("seek", ((ev) => {
+        console.log("seek");
+    }));
+
+    player.on("pause", (ev) => {
+        console.log("pause");
+        upDownStopFlag = "STOP";
+    });
+    player.on("finish", (ev) => {
+        upDownStopFlag = "STOP";
+    });
+    player.addPlugin(new Songle.Plugin.Chorus({
+        revisionId: 1536895
+    }));
+    player.on("chorusSectionEnter", ((ev) => {
+        console.log(ev.data.sectionItem.index);
+        if ([1, 3, 4].indexOf(ev.data.sectionItem.index) !== -1) {
+            upDownStopFlag = "STOP";
+        }
+    }), {
+            offset: -1000
+        }
+    );
+    player.on("chorusSectionEnter", ((ev) => {
+        console.log(ev.data.sectionItem.index);
+        if ([1, 2, 3, 4, 5, 6, 7].indexOf(ev.data.sectionItem.index) !== -1) {
+            upDownStopFlag = "UP";
+            flowers.forEach((flower) => {
+                flower.setUpColor();
+            });
+        }
+    }), {
+            offset: 0
+        }
+    );
+    player.on("chorusSectionEnter", ((ev) => {
+        if (ev.data.sectionItem.index === 0) {
+            upDownStopFlag = "DOWN";
+            flowers.forEach((flower) => {
+                flower.setDownColor();
+            });
+        }
+    }), {
+            offset: 0
+        }
+    );
+    player.on("repeatSectionEnter", ((ev) => {
+        if (ev.data.section.index === 2 && ev.data.sectionItem.index > 0) {
+            upDownStopFlag = "UP";
+            flowers.forEach((flower) => {
+                flower.setUpColor();
+            });
+        }
+    }));
+    player.on("repeatSectionLeave", ((ev) => {
+        if (ev.data.section.index === 2) {
+            upDownStopFlag = "DOWN";
+            flowers.forEach((flower) => {
+                flower.setDownColor();
+            });
+        }
+    }));
 
     let miniFlowerSize = 30;
     let middleFlowerSize = 90;
@@ -77,29 +153,12 @@ document.addEventListener("DOMContentLoaded", (() => {
             flowers.forEach((flower) => {
                 flower.down();
                 if (flower.flowerTranslate.matrix.split().dy > height + flower.size) {
-                    flower.setTranslateY(getRandomInt(-1 * height * 1 / 3, -1 * flower.size / 2));
+                    flower.setTranslateY(getRandomInt(-1 * height * 1 / 3, -1 * flower.size));
                 }
             });
         }
 
-    }), 50);
-
-    document.addEventListener("click", (() => {
-        if (upDownStopFlag == "DOWN") {
-            upDownStopFlag = "STOP";
-        } else if (upDownStopFlag == "STOP") {
-            upDownStopFlag = "UP";
-            flowers.forEach((flower) => {
-                flower.setUpColor();
-            });
-
-        } else if (upDownStopFlag == "UP") {
-            upDownStopFlag = "DOWN";
-            flowers.forEach((flower) => {
-                flower.setDownColor();
-            });
-        }
-    }));
+    }), 1000 / 10);
 }));
 
 const getRandomInt = ((min, max) => {
