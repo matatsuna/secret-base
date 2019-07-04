@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>secret base ～君がくれたもの～</title>
     <style>
         html {
             height: 100%;
@@ -19,11 +19,29 @@
             background: #f0f0f0;
             overflow: hidden;
         }
+
+        #songle {
+            position: fixed;
+            bottom: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+        }
+
+        #toggle {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+        }
     </style>
 </head>
 
 <body>
     <div id="songle"></div>
+    <div id="toggle">
+        <input id="check" type="checkbox" name="check" checked="checked">
+        <label for="check">niconico over</label>
+    </div>
     <script src="./build/bundle.js"></script>
 </body>
 

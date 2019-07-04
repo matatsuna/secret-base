@@ -5,7 +5,19 @@ document.addEventListener("DOMContentLoaded", (() => {
     const player = new Songle.Player({
         mediaElement: "#songle"
     });
-    player.useMedia("www.nicovideo.jp%2Fwatch%2Fsm15335938");
+    player.useMedia("www.nicovideo.jp%2Fwatch%2Fsm15335938", {
+        videoSizeW: "100%",
+        videoSizeH: "100%"
+    });
+
+    document.getElementById("check").addEventListener("change", ((e) => {
+        let songleDom = document.getElementById("songle");
+        if (e.target.checked) {
+            songleDom.style.zIndex = 1;
+        } else {
+            songleDom.style.zIndex = -1;
+        }
+    }));
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const width = window.innerWidth;
@@ -43,10 +55,9 @@ document.addEventListener("DOMContentLoaded", (() => {
         upDownStopFlag = "STOP";
     });
     player.addPlugin(new Songle.Plugin.Chorus({
-        revisionId: 1536895
+        revisionId: 1536932
     }));
     player.on("chorusSectionEnter", ((ev) => {
-        console.log(ev.data.sectionItem.index);
         if ([1, 3, 4].indexOf(ev.data.sectionItem.index) !== -1) {
             upDownStopFlag = "STOP";
         }
@@ -55,7 +66,6 @@ document.addEventListener("DOMContentLoaded", (() => {
         }
     );
     player.on("chorusSectionEnter", ((ev) => {
-        console.log(ev.data.sectionItem.index);
         if ([1, 2, 3, 4, 5, 6, 7].indexOf(ev.data.sectionItem.index) !== -1) {
             upDownStopFlag = "UP";
             flowers.forEach((flower) => {
@@ -86,7 +96,7 @@ document.addEventListener("DOMContentLoaded", (() => {
         }
     }));
     player.on("repeatSectionLeave", ((ev) => {
-        if (ev.data.section.index === 2) {
+        if (ev.data.section.index === 2 && ev.data.sectionItem.index <= 2) {
             upDownStopFlag = "DOWN";
             flowers.forEach((flower) => {
                 flower.setDownColor();
