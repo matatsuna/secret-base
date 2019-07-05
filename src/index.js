@@ -20,8 +20,10 @@ document.addEventListener("DOMContentLoaded", (() => {
     }));
 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let flowers = [];
+
     svg.setAttribute('id', 'svg');
     svg.setAttribute('preserveAspectRatio', 'xMinYMin meet');
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -34,6 +36,20 @@ document.addEventListener("DOMContentLoaded", (() => {
         `height: ${height}px;`,
     ].join(' '));
     document.body.appendChild(svg);
+
+    window.addEventListener("resize", (() => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        svg.setAttribute('width', `${width}px`);
+        svg.setAttribute('height', `${height}px`);
+        svg.setAttribute('style', [
+            `width: ${width}px;`,
+            `height: ${height}px;`,
+        ].join(' '));
+        flowers = [];
+        createFlowers();
+    }));
     let upDownStopFlag = "STOP";
 
     player.on("play", (ev) => {
@@ -104,51 +120,53 @@ document.addEventListener("DOMContentLoaded", (() => {
         }
     }));
 
-    let miniFlowerSize = 30;
-    let middleFlowerSize = 90;
-    let bigFlowerSize = 240;
-    let flowers = [];
-    // 小さいもの100個
-    for (var i = 0; i < 100; i++) {
-        let flower = new Flower(
-            "#svg",
-            getRandomInt(0, width - miniFlowerSize),
-            getRandomInt(0, height / 3 * 4),
-            getRandomInt(3, 5),
-            0.1,
-            getRandomUpColor(),
-            getRandomDownColor()
-        );
-        flowers.push(flower);
-    }
+    const createFlowers = (() => {
+        let miniFlowerSize = 30;
+        let middleFlowerSize = 90;
+        let bigFlowerSize = 240;
+        // 小さいもの100個
+        for (var i = 0; i < 100; i++) {
+            let flower = new Flower(
+                "#svg",
+                getRandomInt(0, width - miniFlowerSize),
+                getRandomInt(0, height / 3 * 4),
+                getRandomInt(3, 5),
+                0.1,
+                getRandomUpColor(),
+                getRandomDownColor()
+            );
+            flowers.push(flower);
+        }
 
-    // 中ぐらいもの150個
-    for (var i = 0; i < 150; i++) {
-        let flower = new Flower(
-            "#svg",
-            getRandomInt(0, width - middleFlowerSize),
-            getRandomInt(0, height / 3 * 4),
-            getRandomInt(2, 7),
-            0.3,
-            getRandomUpColor(),
-            getRandomDownColor()
-        );
-        flowers.push(flower);
-    }
-    // 大きいもの5個
-    for (var i = 0; i < 5; i++) {
-        let flower = new Flower(
-            "#svg",
-            getRandomInt(0, width - bigFlowerSize),
-            getRandomInt(0, height / 3 * 4),
-            getRandomInt(4, 8),
-            0.8,
-            getRandomUpColor(),
-            getRandomDownColor()
-        );
-        flowers.push(flower);
-    }
+        // 中ぐらいもの150個
+        for (var i = 0; i < 150; i++) {
+            let flower = new Flower(
+                "#svg",
+                getRandomInt(0, width - middleFlowerSize),
+                getRandomInt(0, height / 3 * 4),
+                getRandomInt(2, 7),
+                0.3,
+                getRandomUpColor(),
+                getRandomDownColor()
+            );
+            flowers.push(flower);
+        }
+        // 大きいもの5個
+        for (var i = 0; i < 5; i++) {
+            let flower = new Flower(
+                "#svg",
+                getRandomInt(0, width - bigFlowerSize),
+                getRandomInt(0, height / 3 * 4),
+                getRandomInt(4, 8),
+                0.8,
+                getRandomUpColor(),
+                getRandomDownColor()
+            );
+            flowers.push(flower);
+        }
 
+    });
+    createFlowers();
     setInterval((() => {
         if (upDownStopFlag == "UP") {
             flowers.forEach((flower) => {
@@ -168,7 +186,7 @@ document.addEventListener("DOMContentLoaded", (() => {
             });
         }
 
-    }), 1000 / 10);
+    }), 1000 / 15);
 }));
 
 const getRandomInt = ((min, max) => {
