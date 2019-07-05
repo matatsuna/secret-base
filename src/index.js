@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", (() => {
             `width: ${width}px;`,
             `height: ${height}px;`,
         ].join(' '));
+        flowers.forEach(((flower) => {
+            flower.flower.remove();
+        }));
         flowers = [];
         createFlowers();
     }));
@@ -122,14 +125,19 @@ document.addEventListener("DOMContentLoaded", (() => {
 
     const createFlowers = (() => {
         let miniFlowerSize = 30;
-        let middleFlowerSize = 90;
-        let bigFlowerSize = 240;
         // 小さいもの100個
-        for (var i = 0; i < 100; i++) {
+        let miniFlowerLength = Math.floor(100 / (1920 * 1200) * (width * height));
+        let middleFlowerSize = 90;
+        // 中ぐらいもの150個
+        let middleFlowerLength = Math.floor(150 / (1920 * 1200) * (width * height));
+        let bigFlowerSize = 240;
+        // 大きいもの5個
+        let bigFlowerLength = 5;
+        for (var i = 0; i < miniFlowerLength; i++) {
             let flower = new Flower(
                 "#svg",
                 getRandomInt(0, width - miniFlowerSize),
-                getRandomInt(0, height / 3 * 4),
+                getRandomInt(-miniFlowerSize, height / 3 * 4),
                 getRandomInt(3, 5),
                 0.1,
                 getRandomUpColor(),
@@ -138,12 +146,11 @@ document.addEventListener("DOMContentLoaded", (() => {
             flowers.push(flower);
         }
 
-        // 中ぐらいもの150個
-        for (var i = 0; i < 150; i++) {
+        for (var i = 0; i < middleFlowerLength; i++) {
             let flower = new Flower(
                 "#svg",
                 getRandomInt(0, width - middleFlowerSize),
-                getRandomInt(0, height / 3 * 4),
+                getRandomInt(-middleFlowerSize, height / 3 * 4),
                 getRandomInt(2, 7),
                 0.3,
                 getRandomUpColor(),
@@ -151,12 +158,11 @@ document.addEventListener("DOMContentLoaded", (() => {
             );
             flowers.push(flower);
         }
-        // 大きいもの5個
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < bigFlowerLength; i++) {
             let flower = new Flower(
                 "#svg",
                 getRandomInt(0, width - bigFlowerSize),
-                getRandomInt(0, height / 3 * 4),
+                getRandomInt(-bigFlowerSize, height / 3 * 4),
                 getRandomInt(4, 8),
                 0.8,
                 getRandomUpColor(),
