@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", (() => {
         upDownStopFlag = "STOP";
     });
     player.addPlugin(new Songle.Plugin.Chorus({
-        revisionId: 1536932
+        revisionId: 1537048
     }));
     player.on("chorusSectionEnter", ((ev) => {
         if ([1, 3, 4].indexOf(ev.data.sectionItem.index) !== -1) {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", (() => {
             });
         }
     }), {
-            offset: 0
+            offset: 500
         }
     );
     player.on("chorusSectionEnter", ((ev) => {
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", (() => {
             flowers.forEach((flower) => {
                 flower.up();
                 if (flower.flowerTranslate.matrix.split().dy < -1 * flower.size) {
-                    flower.setTranslateY(getRandomInt(height, height * 4 / 3));
+                    flower.setTranslate(getRandomInt(0, width - flower.size), getRandomInt(height, height * 4 / 3));
                 }
             });
         } else if (upDownStopFlag == "STOP") {
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", (() => {
             flowers.forEach((flower) => {
                 flower.down();
                 if (flower.flowerTranslate.matrix.split().dy > height + flower.size) {
-                    flower.setTranslateY(getRandomInt(-1 * height * 1 / 3, -1 * flower.size));
+                    flower.setTranslate(getRandomInt(0, width - flower.size), getRandomInt(-1 * height * 1 / 3, -1 * flower.size));
                 }
             });
         }
