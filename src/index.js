@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", (() => {
         let middleFlowerLength = Math.floor(150 / (1920 * 1200) * (width * height));
         let bigFlowerSize = 240;
         // 大きいもの5個
-        let bigFlowerLength = 5;
+        let bigFlowerLength = Math.floor(5 / (1920 * 1200) * (width * height));
         for (var i = 0; i < miniFlowerLength; i++) {
             let flower = new Flower(
                 "#svg",
