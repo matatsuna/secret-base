@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", (() => {
         videoSizeH: "100%"
     });
 
-    document.getElementById("check").addEventListener("change", ((e) => {
-        let songleDom = document.getElementById("songle");
+    const songleDom = document.getElementById("songle");
+    const check = document.getElementById("check");
+    check.addEventListener("change", ((e) => {
         if (e.target.checked) {
             songleDom.style.zIndex = 1;
         } else {
@@ -36,6 +37,16 @@ document.addEventListener("DOMContentLoaded", (() => {
         `height: ${height}px;`,
     ].join(' '));
     document.body.appendChild(svg);
+
+    svg.addEventListener("click", ((e) => {
+        if (width / 4 < e.clientX && e.clientX < width / 4 * 3 && height / 4 < e.clientY && e.clientY < height / 4 * 3) {
+            songleDom.style.zIndex = 1;
+            check.checked = true;
+        } else {
+            songleDom.style.zIndex = -1;
+            check.checked = false;
+        }
+    }));
 
     window.addEventListener("resize", (() => {
         width = window.innerWidth;
