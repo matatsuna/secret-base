@@ -1,4 +1,4 @@
-const Snap = require(`imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js`);
+import Snap from "snapsvg-cjs";
 
 class Flower {
 

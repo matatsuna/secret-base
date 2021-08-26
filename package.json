@@ -28,7 +28,7 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "snapsvg": "^0.5.1",
+    "snapsvg-cjs": "0.0.6",
     "songle-api": "^1.2.0"
   }
 }
